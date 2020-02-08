@@ -1,28 +1,28 @@
 var router = require('express').Router();
-var orm = require('../../db');
+var Todo = require('../../models/todo');
 
 router.get('/', async (req, res) => {
-  const todos = await orm.selectAll('todos');
+  const todos = await Todo.all();
   res.json({ todos: todos });
 });
 
 router.post('/', async (req, res) => {
-  const result = await orm.insertInto('todos', req.body);
+  const result = await todo.create(req.body);
   res.json(result);
 });
 
 router.get('/:id', async (req, res) => {
-  const todo = await orm.selectOneById('todos', req.params.id);
+  const todo = await todo.getOne(req.params.id);
   res.json(todo);
 });
 
 router.put('/:id', async (req, res) => {
-  const result = await orm.updateOneById('todos', req.params.id, req.body);
+  const result = await todo.update(req.params.id, req.body);
   res.json(result);
 });
 
 router.delete('/:id', async (req, res) => {
-  const result = await orm.deleteOneById('todos', req.params.id);
+  const result = await todo.delete(req.params.id);
   res.json(result);
 });
 
