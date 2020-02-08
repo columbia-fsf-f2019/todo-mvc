@@ -2,14 +2,26 @@ var db = require('../config');
 
 const orm = {
   selectAll: async table => {
-    const data = await db.promise().query('SELECT * FROM ??;', [table]);
-    return data || [];
+    const [rows, fields] = await db
+      .promise()
+      .query('SELECT * FROM ??;', [table]);
+    return rows || [];
+  },
+  selectAllWhere: async (table, col, value) => {
+    const [
+      rows,
+      fields
+    ] = await db
+      .promise()
+      .query('SELECT * FROM ?? where ?? = ?;', [table, col, value]);
+    return rows || [];
   },
   selectOneById: async (table, id) => {
-    const [data, _] = await db
-      .promise()
-      .query('SELECT * FROM ?? WHERE id = ?;', [table, id]);
-    return data || [];
+    const [
+      rows,
+      fields
+    ] = await db.promise().query('SELECT * FROM ?? WHERE id = ?;', [table, id]);
+    return rows || [];
   },
   insertInto: async (table, data) => {
     const result = await db
