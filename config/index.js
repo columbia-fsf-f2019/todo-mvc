@@ -1,13 +1,7 @@
-var mysql = require('mysql2');
+const { Sequelize } = require('sequelize');
 
-var connection = mysql.createConnection(
-  process.env.JAWSDB_URL || {
-    host: 'localhost',
-    port: 3306,
-    user: 'root',
-    password: '1234',
-    database: 'todos_db'
-  }
+const sequelize = new Sequelize(
+  process.env.JAWSDB_URL || 'mysql://root:1234@localhost:3306/todos_db'
 );
 
-module.exports = connection;
+module.exports = sequelize;
